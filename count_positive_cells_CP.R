@@ -12,8 +12,8 @@ require(stringr)
 require(reshape2)
 
 # UPDATE THRESHOLD VALUES HERE
-threshSMA = 0.008
-threshPDGFR = 0.00375
+threshSMA = 0.0000
+threshPDGFR = 0.0000
 
 
 # ---- Prompt for an object file ----
@@ -24,6 +24,15 @@ objectFile <- file.choose()
 objectData <- read_csv(objectFile,
                     locale = locale())
 
+# determine threshold for positivity by median of control group
+medians <- objectData %>% 
+  group_by(Metadata_Treatment) %>% 
+  summarise(nCells = n(),
+            medianSMA = median(Intensity_MeanIntensity_SMA),
+            medianPDGFR = median(Intensity_MeanIntensity_PDGFRalpha))
+threshSMA <- medians$medianSMA[1]
+threshPDGFR <- medians$medianPDGFR[1]
+            
 # ---- Count positive cells within each sample and treatment ---
 counts <- objectData %>% 
   group_by(Metadata_Treatment, Metadata_Sample) %>% 
