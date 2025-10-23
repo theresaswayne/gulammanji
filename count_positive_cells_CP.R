@@ -13,7 +13,7 @@ require(reshape2)
 
 # UPDATE THRESHOLD VALUES HERE
 threshSMA = 0.008
-threshPDGFR = 0.004
+threshPDGFR = 0.00375
 
 
 # ---- Prompt for an object file ----
@@ -59,7 +59,7 @@ parentDir <- dirname(objectFile) # parent of the file
 outputFile = paste(objectName, "_count_summary.csv") # spaces will be inserted
 write_csv(counts_save,file.path(parentDir, outputFile))
 outputPooledFile = paste(objectName, "_pooled_count_summary.csv") # spaces will be inserted
-write_csv(pooled_counts_save,file.path(parentDir, outputFile))
+write_csv(pooled_counts_save,file.path(parentDir, outputPooledFile))
 
 # ---- Plots ----
 p_countSMA <- ggplot(counts,
