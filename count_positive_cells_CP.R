@@ -1,8 +1,8 @@
 # count_positive_cells_CP.R
 # R script to use mean intensity data from CellProfiler object results files
-# to count cells exceeding a threshold intensity value
+# to count cells exceeding a threshold intensity value defined as the median of the control group
 # and summarize by treatment and sample
-# To use: Update the variables in Setup section. Run the script.
+# To use: Run the script.
 # Will be prompted for a file.
 
 # ---- Setup ----
@@ -10,11 +10,6 @@ require(tidyverse)
 require(readr)
 require(stringr)
 require(reshape2)
-
-# UPDATE THRESHOLD VALUES HERE
-threshSMA = 0.0000
-threshPDGFR = 0.0000
-
 
 # ---- Prompt for an object file ----
 # no message will be displayed
