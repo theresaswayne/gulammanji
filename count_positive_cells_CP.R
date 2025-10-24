@@ -41,8 +41,8 @@ counts <- objectData %>%
             PercentPositiveSMA = PositiveSMA/nCells,
             PositivePDGFR = sum(Intensity_MeanIntensity_PDGFRalpha > threshPDGFR),
             PercentPositivePDGFR = PositivePDGFR/nCells)
-SMA_name <- paste0("SMA Mean >",threshSMA)
-PDGFR_name <- paste0("PDGFR Mean >", threshPDGFR)
+SMA_name <- paste0("SMA Mean >",round(threshSMA, digits = 5))
+PDGFR_name <- paste0("PDGFR Mean >", round(threshPDGFR, digits = 5))
 counts_save <- counts
 counts_save <- counts_save %>% 
   rename(!!SMA_name := PositiveSMA) %>%
@@ -98,17 +98,25 @@ ggsave(file.path(parentDir, outputPlotPDGFR), width=20, height = 14)
 pct_pos <- counts %>% select(-c(PositiveSMA, PositivePDGFR)) %>% rename(SMA = PercentPositiveSMA, PDGFR = PercentPositivePDGFR)
 pct_pos_pivot <- pct_pos %>%
   pivot_longer(-c(Metadata_Sample,Metadata_Treatment, nCells), names_to="Marker", values_to="PercentPositive")
+# p_counts <- ggplot(pct_pos_pivot,
+#                        aes(x = Metadata_Treatment, y = PercentPositive, fill = Marker)) + 
+#   geom_col(position = "dodge") +
+#   facet_wrap(~Metadata_Sample)+
+#   theme(text=element_text(size=20)) +
+#   scale_fill_manual(values = c("#1ABC9C", "#FF5733"))
+
 p_counts <- ggplot(pct_pos_pivot,
-                       aes(x = Metadata_Treatment, y = PercentPositive, fill = Marker)) + 
-  geom_col(stat = identity, position = "dodge") +
+                   aes(x = Marker, y = PercentPositive, fill = Metadata_Treatment)) + 
+  geom_col(position = "dodge") +
   facet_wrap(~Metadata_Sample)+
-  theme(text=element_text(size=20))
+  theme(text=element_text(size=20))  +
+  scale_fill_manual(values = c("#000000", "#FF0000"))
 
 outputCountPlot = paste(objectName, "combined count plot.pdf")
 ggsave(file.path(parentDir, outputCountPlot), width=20, height = 14)
 
 # ---- Plots of pooled data ----
-p_pooledSMA <- ggplot(counts,
+p_pooledSMA <- ggplot(pooled_counts,
                       aes(Metadata_Treatment, PercentPositiveSMA)) + 
   geom_col()+
   theme(text=element_text(size=20))
@@ -118,7 +126,7 @@ outputPooledSMA = paste(objectName, "SMA pooled plot.pdf")
 # plot size can be changed according to the number of panels
 ggsave(file.path(parentDir, outputPooledSMA), width=20, height = 14)
 
-p_pooledPDGFR <- ggplot(counts,
+p_pooledPDGFR <- ggplot(pooled_counts,
                         aes(Metadata_Treatment, PercentPositivePDGFR)) + 
   geom_col()+
   theme(text=element_text(size=20))
