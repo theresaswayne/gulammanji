@@ -28,6 +28,8 @@ while (nImages>0) { // clean up open images
 }
 print("\\Clear"); // clear Log window
 
+run("Collect Garbage"); // clear memory
+	
 setBatchMode(true); // faster performance
 run("Bio-Formats Macro Extensions"); // support native microscope files
 
@@ -48,7 +50,7 @@ while (nImages > 0) { // clean up open images
 }
 setBatchMode(false);
 print("Finished");
-
+run("Collect Garbage"); // clear memory
 
 // ---- Functions ----
 
@@ -73,9 +75,13 @@ function processFolder(input, output, suffix) {
 
 
 function processFile(inputFolder, outputFolder, fileName, fileNumber) {
-	
+
+
 	// this function processes a single image
-	
+	run("Collect Garbage"); // clear memory
+	run("Fresh Start"); // closes all images, clears ROIs and results to solve memory leak
+	// see https://forum.image.sc/t/memory-not-clearing-over-time/2137/45 
+	//   and https://forum.image.sc/t/fresh-start-macro-command-in-imagej-fiji/43102/7
 	path = inputFolder + File.separator + fileName;
 	print("Processing file",fileNumber," at path" ,path);	
 
@@ -87,7 +93,7 @@ function processFile(inputFolder, outputFolder, fileName, fileNumber) {
 	print("Processing file at path" ,path,", with basename",basename);
 	
 	// open the file
-	run("Bio-Formats", "open=&path");
+	run("Bio-Formats", "open=&path virtual");
 
 	run("Z Project...", "projection=[Max Intensity]");
 	
