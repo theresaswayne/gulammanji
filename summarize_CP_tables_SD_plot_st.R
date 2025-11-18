@@ -42,7 +42,7 @@ parentDir <- dirname(objectFile) # parent of the file
 outputFile = paste(objectName, "_summary.csv") # spaces will be inserted
 write_csv(mean_intens,file.path(parentDir, outputFile))
 outputPooledFile = paste(objectName, "_pooledsummary.csv") # spaces will be inserted
-write_csv(mean_pooled_intens,file.path(parentDir, outputFile))
+write_csv(mean_pooled_intens,file.path(parentDir, outputPooledFile))
 
 # ---- Plots ----
 p_meanSMA <- ggplot(objectData,
@@ -78,7 +78,7 @@ p_pooledSMA <- ggplot(objectData,
   stat_summary(fun.data=mean_sdl,
                geom="pointrange", color="red")
 
-outputPooledSMA = paste(objectName, "SMA pooled plot.pdf")
+outputPooledSMA = paste(objectName, "SMA mean pooled plot.pdf")
 
 # plot size can be changed according to the number of panels
 ggsave(file.path(parentDir, outputPooledSMA), width=20, height = 14)
@@ -90,5 +90,5 @@ p_pooledPDGFR <- ggplot(objectData,
   stat_summary(fun.data=mean_sdl,
                geom="pointrange", color="red")
 
-outputPooledPDGFR = paste(objectName, "PDGFR pooled plot.pdf")
+outputPooledPDGFR = paste(objectName, "PDGFR mean pooled plot.pdf")
 ggsave(file.path(parentDir, outputPooledPDGFR), width=20, height = 14)

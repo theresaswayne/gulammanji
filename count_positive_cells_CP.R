@@ -116,7 +116,7 @@ p_pooledSMA <- ggplot(pooled_counts,
   geom_col()+
   theme(text=element_text(size=20))
 
-outputPooledSMA = paste(objectName, "SMA pooled plot.pdf")
+outputPooledSMA = paste(objectName, "SMA pooled count plot.pdf")
 
 # plot size can be changed according to the number of panels
 ggsave(file.path(parentDir, outputPooledSMA), width=20, height = 14)
@@ -126,5 +126,5 @@ p_pooledPDGFR <- ggplot(pooled_counts,
   geom_col()+
   theme(text=element_text(size=20))
 
-outputPooledPDGFR = paste(objectName, "PDGFR pooled plot.pdf")
+outputPooledPDGFR = paste(objectName, "PDGFR pooled count plot.pdf")
 ggsave(file.path(parentDir, outputPooledPDGFR), width=20, height = 14)
