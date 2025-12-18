@@ -99,7 +99,7 @@ function processFile(inputFolder, outputFolder, fileName, fileNumber) {
 	
 	selectWindow("MAX_"+fileName);
 	// save the output
-	outputName = basename + "_max.tif";
+	outputName = basename + "-MaxIP.tif";
 	saveAs("tiff", outputFolder + File.separator + outputName);
 	close();
 	run("Collect Garbage"); // clear memory
